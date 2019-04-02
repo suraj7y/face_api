@@ -23,5 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('face_detection/detect/', views.detect, name="face_detection"),
-    path('face_detection/detect1/', views.detect1, name="face_detection1")
+    path('face_detection/detect1/', views.detect1, name="face_detection1"),
+    path('face_detection/test/', views.test, name="test"),
+    path('face_detection/api/', views.upload_image, name="api"),
+
 ]
