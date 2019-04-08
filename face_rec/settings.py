@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'o#tz)p4=zj!&g=jo^jw4d$_k(j-(kr*(6*-o=xslarv42@p)wj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'face'
 ]
 
@@ -107,11 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
    #     'rest_framework.parsers.FormParser',
     #)
 #}
-REST_FRAMEWORK = {
-    'DEFAULT_PARSER_CLASSES': (
-        'rest_framework.parsers.JSONParser',
-    )
-}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
