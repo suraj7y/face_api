@@ -15,16 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.urlpatterns import format_suffix_patterns
 from face import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('face_detection/detect/', views.detect, name="face_detection"),
-    path('face_detection/detect1/', views.detect1, name="face_detection1"),
-    path('face_detection/test/', views.test, name="test"),
     path('face_detection/api/', views.upload_image, name="api"),
 
 ]
