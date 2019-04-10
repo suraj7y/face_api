@@ -21,5 +21,9 @@ from face import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('face_detection/api/', views.upload_image, name="api"),
+    path('user_register/data/', views.data_trainning, name="data"),
+    path('training/data_training/', views.training, name="data_training"),
+
+
 
 ]
