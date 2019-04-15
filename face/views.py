@@ -98,27 +98,46 @@ def data_trainning(request):
     '''
 
 def training(request):
-    tains = os.path.join(BASE_DIR, 'knn/train')
-    train(tains, model_save_path="trained_knn_model.clf", n_neighbors=2)
+    try:
+        tains = os.path.join(BASE_DIR, 'knn/train')
+        train(tains, model_save_path="trained_knn_model.clf", n_neighbors=2)
 
-    result = {
+        result = {
 
-        "data training ": "data trained"
-    }
-    return JsonResponse(result)
+            "data training ": "data trained",
+            "success": True
+        }
+        return JsonResponse(result)
+    except:
+        result = {
+
+            "success": False
+
+        }
+        return JsonResponse(result)
 
 def handle_uploaded_file(file_name,f):
     print(f)
-    with open(file_name, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
-        destination.close()
+    try:
+        with open(file_name, 'wb+') as destination:
+            for chunk in f.chunks():
+                destination.write(chunk)
+            destination.close()
 
+            result = {
+                "file": "uploded",
+                "success": True
+
+            }
+        return JsonResponse(result)
+    except:
         result = {
-            "file": "uploded",
+
+            "success": False
 
         }
-    return JsonResponse(result)
+        return JsonResponse(result)
+
 
 '''
 def detect_faces_in_image1(known):
