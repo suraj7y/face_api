@@ -13,17 +13,17 @@ RUN apt-get update && \
 
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir /erp
+RUN mkdir /face_rec
 
-WORKDIR /erp
+WORKDIR /face_rec
 
 COPY . .
 
 RUN pip3 install -r requirements.txt
 
-RUN pip3 install gunicorn reportlab
+RUN pip3 install gunicorn
 
-RUN python3 manage.py collectstatic  --noinput
+#RUN python3 manage.py collectstatic  --noinput
 
 ENV LANG C.UTF-8
 
