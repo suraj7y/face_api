@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import os
 import face_recognition
+import shutil
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #BASE_DIR1 = os.path.dirname(os.path.dirname(os.path.abspath('/knn/train/')))
@@ -62,32 +63,57 @@ def upload_image(request):
 @csrf_exempt
 def data_trainning(request):
     if request.method == 'POST':
-        if 'img1' not in request.FILES:
-            return redirect(request.url)
 
-
-        file = request.FILES['img1']
-
-        img_extension = os.path.splitext(file.name)[1]
-
-        #known = request.FILES['known']
-
-        #print("trained")
+        iserror = 0
+        is_photo = 0
+        result = {}
+        form = request.FILES
+        file = form.getlist('img1[]')
         dirname = request.POST['id']
-        path1 = 'knn/train/'+dirname+'/'
-        #print(BASE_DIR1)
-        file_name = os.mkdir(os.path.join(BASE_DIR, path1))
-        print(file_name)
-        newpath  = os.path.join(BASE_DIR, path1)
-        print(newpath+"jjdjjdjjjjjjjjjjjjjjjjjjjjjjjj")
+        path1 = 'knn/train/' + dirname + '/'
+        newpath = os.path.join(BASE_DIR, path1)
+        try:
+            shutil.rmtree(newpath)
+        except:
+            print("no directory")
 
-        img_save_path = newpath+ 'avatar'+img_extension
+        file_name = os.mkdir(newpath)
+
+        # file_name = os.mkdir(os.path.join(BASE_DIR, path1))
+        # newpath = os.path.join(BASE_DIR, path1)
+
+        for x in range(len(file)):
+            is_photo = 1
+            img_extension = os.path.splitext(file[x].name)[1]
+
+            #known = request.FILES['known']
+            #print("trained")
+            #print(BASE_DIR1)
+            #print(file_name)
+
+            #print(newpath+"jjdjjdjjjjjjjjjjjjjjjjjjjjjjjj")
+            z = x+1
+
+            img_save_path = newpath + str(z) + img_extension
+            data = handle_uploaded_file(img_save_path, file[x])
+            if not data:
+                iserror = 1
+                break
+        if iserror == 0 and is_photo == 1:
+            result = {
+                "file": "uploaded",
+                "success": True
+            }
+        else:
+            result = {
+                "file": "not uploaded",
+                "success": False
+            }
+
+        return JsonResponse(result)
 
 
-        return handle_uploaded_file(img_save_path, file)
-
-
-    return '''
+    '''return 
     <!doctype html>
     <title>Is this a picture of Obama?</title>
     <h1>Upload a picture and see if it's a picture of Obama!</h1>
@@ -116,27 +142,18 @@ def training(request):
         }
         return JsonResponse(result)
 
-def handle_uploaded_file(file_name,f):
+
+def handle_uploaded_file(file_name, f):
     print(f)
     try:
         with open(file_name, 'wb+') as destination:
             for chunk in f.chunks():
                 destination.write(chunk)
             destination.close()
+        return True
 
-            result = {
-                "file": "uploded",
-                "success": True
-
-            }
-        return JsonResponse(result)
     except:
-        result = {
-
-            "success": False
-
-        }
-        return JsonResponse(result)
+        return False
 
 
 '''
